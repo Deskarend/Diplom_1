@@ -1,5 +1,4 @@
 from unittest.mock import Mock
-
 from stellar_burgers.bun import Bun
 from stellar_burgers.ingredient import Ingredient
 
@@ -29,11 +28,13 @@ ingredients = [
     [filling_type, "sausage", 300]
 ]
 
+
 def get_ingredients_as_list_objects():
     list_ingredients = []
     for ingredient in ingredients:
         list_ingredients.append(Ingredient(*ingredient))
     return list_ingredients
+
 
 def get_mock_ingredient():
     mock_ingredients = []

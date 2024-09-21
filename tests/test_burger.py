@@ -11,9 +11,9 @@ class TestBurger:
     def test_default_bun_and_ingredient_values_burger(self):
         burger = Burger()
 
-        assert burger.bun is None, (f"Ожидаемое значение булочки нового(пустого) бургера {None}, "
+        assert burger.bun is None, (f"Ожидаемое значение булочки пустого бургера {None}, "
                                     f"фактическое {burger.bun}")
-        assert burger.ingredients == [], (f"Ожидаемое значение ингредиентов нового(пустого) бургера {[]}, "
+        assert burger.ingredients == [], (f"Ожидаемое значение ингредиентов пустого бургера {[]}, "
                                           f"фактическое {burger.ingredients}")
 
     @pytest.mark.parametrize('name, price', data.buns)
