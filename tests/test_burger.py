@@ -7,23 +7,6 @@ import data
 from stellar_burgers.burger import Burger
 
 
-def get_mock_ingredient():
-    mock_ingredients = []
-    for ingredient in data.ingredients:
-        mock_ingredient = Mock()
-        mock_ingredient.type = ingredient[0]
-        mock_ingredient.name = ingredient[1]
-        mock_ingredient.price = ingredient[2]
-
-        mock_ingredient.get_type.return_value = ingredient[0]
-        mock_ingredient.get_name.return_value = ingredient[1]
-        mock_ingredient.get_price.return_value = ingredient[2]
-
-        mock_ingredients.append(mock_ingredient)
-
-    return mock_ingredients
-
-
 class TestBurger:
     def test_default_bun_and_ingredient_values_burger(self):
         burger = Burger()
@@ -75,7 +58,7 @@ class TestBurger:
                                                        f"фактические {burger.ingredients}")
 
     def test_burger_remove_ingredient(self):
-        mock_ingredients = get_mock_ingredient()
+        mock_ingredients = data.get_mock_ingredient()
 
         burger = Burger()
         burger.ingredients = mock_ingredients.copy()
@@ -89,7 +72,7 @@ class TestBurger:
                                                             f"фактические {burger.ingredients}")
 
     def test_burger_move_ingredient(self):
-        mock_ingredients = get_mock_ingredient()
+        mock_ingredients = data.get_mock_ingredient()
 
         burger = Burger()
         burger.ingredients = mock_ingredients.copy()
@@ -110,7 +93,7 @@ class TestBurger:
     def test_burger_get_price(self, bun):
         mock_bun = Mock()
         mock_bun.get_price.return_value = bun[1]
-        mock_ingredients = get_mock_ingredient()
+        mock_ingredients = data.get_mock_ingredient()
 
         total_price = bun[1] * 2
         for ingredient in mock_ingredients:
@@ -128,7 +111,7 @@ class TestBurger:
         mock_bun = Mock()
         mock_bun.get_name.return_value = name
         mock_bun.get_price.return_value = price
-        mock_ingredients = get_mock_ingredient()
+        mock_ingredients = data.get_mock_ingredient()
 
         total_price = price * 2
         for ingredient in mock_ingredients:
