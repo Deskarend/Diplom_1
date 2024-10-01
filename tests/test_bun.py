@@ -18,7 +18,7 @@ class TestBun:
                                         f"фактическая цена булочки {bun.name}")
 
     @pytest.mark.parametrize('name, price', data.buns)
-    def test_bun_get_name(self, name, price):
+    def test_get_name(self, name, price):
         bun_name = name
         bun_price = price
 
@@ -28,7 +28,7 @@ class TestBun:
                                             f"фактическое название булочки {bun.get_name()}")
 
     @pytest.mark.parametrize('name, price', data.buns)
-    def test_bun_get_price(self, name, price):
+    def test_get_price(self, name, price):
         bun_name = name
         bun_price = price
 

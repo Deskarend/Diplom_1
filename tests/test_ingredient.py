@@ -21,7 +21,7 @@ class TestIngredient:
                                                       f"фактическая цена ингредиента {ingredient.name}")
 
     @pytest.mark.parametrize('type, name, price', data.ingredients)
-    def test_ingredient_get_type(self, type, name, price):
+    def test_get_type(self, type, name, price):
         ingredient_type = type
         ingredient_name = name
         ingredient_price = price
@@ -32,7 +32,7 @@ class TestIngredient:
                                                           f"фактический тип ингредиента {ingredient.get_type()}")
 
     @pytest.mark.parametrize('type, name, price', data.ingredients)
-    def test_ingredient_get_name(self, type, name, price):
+    def test_get_name(self, type, name, price):
         ingredient_type = type
         ingredient_name = name
         ingredient_price = price
@@ -43,7 +43,7 @@ class TestIngredient:
                                                           f"фактическое название ингредиента {ingredient.get_name()}")
 
     @pytest.mark.parametrize('type, name, price', data.ingredients)
-    def test_ingredient_get_price(self, type, name, price):
+    def test_get_price(self, type, name, price):
         ingredient_type = type
         ingredient_name = name
         ingredient_price = price
