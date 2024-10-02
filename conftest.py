@@ -2,6 +2,8 @@ from unittest.mock import Mock
 
 import pytest
 
+import data
+import helper
 
 
 @pytest.fixture
@@ -26,3 +28,18 @@ def mock_ingredient(request):
     mock_ingredient.price = request.param[2]
 
     return mock_ingredient
+
+
+@pytest.fixture
+def list_mock_ingredients():
+    return helper.IngredientHelper.get_list_mock_ingredients(data.ingredients)
+
+
+@pytest.fixture()
+def list_ingredients_as_class_objects():
+    return helper.IngredientHelper.get_list_ingredients_as_class_objects(data.ingredients)
+
+
+@pytest.fixture()
+def list_buns_as_class_objects():
+    return helper.BunHelper.get_list_buns_as_class_objects(data.buns)

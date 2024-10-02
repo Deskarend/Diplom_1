@@ -47,9 +47,7 @@ class TestBurger:
             assert burger.ingredients == ingredients, (f"Ожидаемые ингредиенты {ingredients}, "
                                                        f"фактические {burger.ingredients}")
 
-    def test_burger_remove_ingredient(self):
-        list_mock_ingredients = helper.IngredientHelper.get_list_mock_ingredients(data.ingredients)
-
+    def test_burger_remove_ingredient(self, list_mock_ingredients):
         burger = Burger()
         burger.ingredients = list_mock_ingredients.copy()
 
@@ -62,9 +60,7 @@ class TestBurger:
                 (f"Ожидаемые ингредиенты после удаления {list_mock_ingredients},"
                  f"фактические {burger.ingredients}")
 
-    def test_burger_move_ingredient(self):
-        list_mock_ingredients = helper.IngredientHelper.get_list_mock_ingredients(data.ingredients)
-
+    def test_burger_move_ingredient(self, list_mock_ingredients):
         burger = Burger()
         burger.ingredients = list_mock_ingredients.copy()
 
@@ -81,9 +77,7 @@ class TestBurger:
                 f"фактические {burger.ingredients}")
 
     @pytest.mark.parametrize('mock_bun', data.buns, indirect=True)
-    def test_burger_get_price(self, mock_bun):
-        list_mock_ingredients = helper.IngredientHelper.get_list_mock_ingredients(data.ingredients)
-
+    def test_burger_get_price(self, mock_bun, list_mock_ingredients):
         total_price = mock_bun.price * 2
         for ingredient in list_mock_ingredients:
             total_price += ingredient.price
@@ -96,9 +90,7 @@ class TestBurger:
                                                    f"фактическая {burger.get_price()}")
 
     @pytest.mark.parametrize('mock_bun', data.buns, indirect=True)
-    def test_burger_get_receipt(self, mock_bun):
-        list_mock_ingredients = helper.IngredientHelper.get_list_mock_ingredients(data.ingredients)
-
+    def test_burger_get_receipt(self, mock_bun, list_mock_ingredients):
         total_price = mock_bun.price * 2
         for ingredient in list_mock_ingredients:
             total_price += ingredient.price
