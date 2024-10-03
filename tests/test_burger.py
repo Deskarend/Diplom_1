@@ -3,7 +3,6 @@ import random
 import pytest
 
 import data
-import helper
 from stellar_burgers.burger import Burger
 
 
@@ -31,72 +30,92 @@ class TestBurger:
         assert burger.ingredients == [mock_ingredient], (f"Ожидаемые ингредиенты {[mock_ingredient]}, "
                                                          f"фактические {burger.ingredients}")
 
-    def test_burger_add_some_ingredients(self):
-        ingredients = []
+    def test_burger_add_some_ingredients(self, list_mock_ingredients_random_length):
         burger = Burger()
 
-        for ingredient in data.ingredients:
-            new_mock_ingredient = helper.IngredientHelper.get_mock_ingredient(ingredient)
-
-            ingredients.append(new_mock_ingredient)
+        for new_mock_ingredient in list_mock_ingredients_random_length:
             burger.add_ingredient(new_mock_ingredient)
 
-            assert burger.ingredients[-1] == new_mock_ingredient, \
-                (f"Ожидаемый добавленный ингредиент {new_mock_ingredient}, "
-                 f"фактический {burger.ingredients[-1]}")
-            assert burger.ingredients == ingredients, (f"Ожидаемые ингредиенты {ingredients}, "
-                                                       f"фактические {burger.ingredients}")
+        assert burger.ingredients == list_mock_ingredients_random_length, \
+            f"Ожидаемые ингредиенты {list_mock_ingredients_random_length}, фактические {burger.ingredients}"
 
-    def test_burger_remove_ingredient(self, list_mock_ingredients):
+    def test_burger_remove_ingredient(self, list_mock_ingredients_random_length):
         burger = Burger()
-        burger.ingredients = list_mock_ingredients.copy()
+        burger.ingredients = list_mock_ingredients_random_length.copy()
 
-        for _ in burger.ingredients:
+        random_ind = random.randrange(len(burger.ingredients))
+        burger.remove_ingredient(random_ind)
+        del list_mock_ingredients_random_length[random_ind]
+
+        assert burger.ingredients == list_mock_ingredients_random_length, \
+            (f"Ожидаемые ингредиенты после удаления {list_mock_ingredients_random_length},"
+             f"фактические {burger.ingredients}")
+
+    def test_burger_remove_some_ingredients(self, list_mock_ingredients_random_length):
+        burger = Burger()
+        burger.ingredients = list_mock_ingredients_random_length.copy()
+
+        for _ in range(random.randrange(len(burger.ingredients))):
             random_ind = random.randrange(len(burger.ingredients))
             burger.remove_ingredient(random_ind)
-            del list_mock_ingredients[random_ind]
+            del list_mock_ingredients_random_length[random_ind]
 
-            assert burger.ingredients == list_mock_ingredients, \
-                (f"Ожидаемые ингредиенты после удаления {list_mock_ingredients},"
-                 f"фактические {burger.ingredients}")
+        assert burger.ingredients == list_mock_ingredients_random_length, \
+            (f"Ожидаемые ингредиенты после удаления {list_mock_ingredients_random_length},"
+             f"фактические {burger.ingredients}")
 
-    def test_burger_move_ingredient(self, list_mock_ingredients):
+    def test_burger_move_ingredient(self, list_mock_ingredients_random_length):
         burger = Burger()
-        burger.ingredients = list_mock_ingredients.copy()
+        burger.ingredients = list_mock_ingredients_random_length.copy()
 
-        for _ in burger.ingredients:
+        index = random.randrange(len(burger.ingredients))
+        new_index = random.randrange(len(burger.ingredients))
+        new_index = random.randrange(len(burger.ingredients)) if index == new_index else new_index
+
+        burger.move_ingredient(index, new_index)
+        list_mock_ingredients_random_length.insert(new_index, list_mock_ingredients_random_length.pop(index))
+
+        assert burger.ingredients == list_mock_ingredients_random_length, \
+            (f"Ожидаемые ингредиенты после перемешивания {list_mock_ingredients_random_length},"
+             f"фактические {burger.ingredients}")
+
+    def test_burger_move_some_ingredients(self, list_mock_ingredients_random_length):
+        burger = Burger()
+        burger.ingredients = list_mock_ingredients_random_length.copy()
+
+        for _ in range(random.randrange(len(burger.ingredients))):
             index = random.randrange(len(burger.ingredients))
             new_index = random.randrange(len(burger.ingredients))
             new_index = random.randrange(len(burger.ingredients)) if index == new_index else new_index
 
             burger.move_ingredient(index, new_index)
-            list_mock_ingredients.insert(new_index, list_mock_ingredients.pop(index))
+            list_mock_ingredients_random_length.insert(new_index, list_mock_ingredients_random_length.pop(index))
 
-            assert burger.ingredients == list_mock_ingredients, (
-                f"Ожидаемые ингредиенты после перемешивания {list_mock_ingredients},"
+        assert burger.ingredients == list_mock_ingredients_random_length, (
+                f"Ожидаемые ингредиенты после перемешивания {list_mock_ingredients_random_length},"
                 f"фактические {burger.ingredients}")
 
     @pytest.mark.parametrize('mock_bun', data.buns, indirect=True)
-    def test_burger_get_price(self, mock_bun, list_mock_ingredients):
+    def test_burger_get_price(self, mock_bun, list_mock_ingredients_random_length):
         total_price = mock_bun.price * 2
-        for ingredient in list_mock_ingredients:
+        for ingredient in list_mock_ingredients_random_length:
             total_price += ingredient.price
 
         burger = Burger()
         burger.bun = mock_bun
-        burger.ingredients = list_mock_ingredients
+        burger.ingredients = list_mock_ingredients_random_length
 
         assert burger.get_price() == total_price, (f"Ожидаемая цена бургера {total_price}, "
                                                    f"фактическая {burger.get_price()}")
 
     @pytest.mark.parametrize('mock_bun', data.buns, indirect=True)
-    def test_burger_get_receipt(self, mock_bun, list_mock_ingredients):
+    def test_burger_get_receipt(self, mock_bun, list_mock_ingredients_random_length):
         total_price = mock_bun.price * 2
-        for ingredient in list_mock_ingredients:
+        for ingredient in list_mock_ingredients_random_length:
             total_price += ingredient.price
 
         receipt = [f'(==== {mock_bun.get_name()} ====)']
-        for ingredient in list_mock_ingredients:
+        for ingredient in list_mock_ingredients_random_length:
             receipt.append(f'= {str(ingredient.get_type()).lower()} {ingredient.get_name()} =')
         receipt.append(f'(==== {mock_bun.get_name()} ====)\n')
         receipt.append(f'Price: {total_price}')
@@ -104,7 +123,7 @@ class TestBurger:
 
         burger = Burger()
         burger.bun = mock_bun
-        burger.ingredients = list_mock_ingredients
+        burger.ingredients = list_mock_ingredients_random_length
 
         assert burger.get_receipt() == receipt, (f'Ожидаемый рецепт бургера {receipt},'
                                                  f'фактический {burger.get_receipt()}')

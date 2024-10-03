@@ -1,3 +1,4 @@
+from random import randint
 from unittest.mock import Mock
 
 import pytest
@@ -31,8 +32,8 @@ def mock_ingredient(request):
 
 
 @pytest.fixture
-def list_mock_ingredients():
-    return helper.IngredientHelper.get_list_mock_ingredients(data.ingredients)
+def list_mock_ingredients_random_length():
+    return helper.IngredientHelper.get_list_mock_ingredients(data.ingredients[:randint(1, len(data.ingredients))])
 
 
 @pytest.fixture()
